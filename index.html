@@ -25,6 +25,14 @@
                 ></a-asset-item>
             </a-assets>
 
+            <a-assets>
+                <audio
+                    id="sound"
+                    src="assets/audio.mp3"
+                    preload="auto"
+                ></audio>
+            </a-assets>
+
             <a-marker
                 id="animated-marker"
                 type="pattern"
@@ -34,6 +42,7 @@
                 emitevents="true"
                 cursor="fuse: false; rayOrigin: mouse;"
                 id="markerA"
+                soundhandler
             >
                 <a-entity
                     id="bowser-model"
@@ -44,8 +53,26 @@
                     gesture-handler
                 ></a-entity>
             </a-marker>
+            
+            <a-entity
+                sound="src: #sound"
+                autoplay="true"
+            ></a-entity>
 
             <a-entity camera></a-entity>
         </a-scene>
+        
+        <script>
+        AFRAME.registerComponent('soundhandler', {
+            tick: function () {
+                   var entity = document.querySelector('[sound]');
+                 if (document.querySelector('a-marker').object3D.visible == true) {
+                    entity.components.sound.playSound();
+                } else {
+                    entity.components.sound.pauseSound();
+                }
+             }
+        });
+        </script>
     </body>
 </html>
